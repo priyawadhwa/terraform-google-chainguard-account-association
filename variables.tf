@@ -11,7 +11,7 @@ variable "enforce_group_id" {
   description = "Enforce IAM group ID to bind your AWS account to"
   sensitive   = false
   nullable    = false
-  default     = "20c1263ac49f8cf9ad39e91006fa2beb8096e7f4"
+  default     = "66fe2f6b69fb795e63abc2769c294ee0d049ee0a"
 
   validation {
     condition     = length(regexall("^[a-f0-9]{40}(\\/[a-f0-9]{16})*$", var.enforce_group_id)) == 1

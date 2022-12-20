@@ -23,7 +23,8 @@ resource "google_project_iam_custom_role" "chainguard_signer_ca_role" {
     "privateca.certificateAuthorities.list",
     "privateca.certificateAuthorities.get",
     "privateca.certificates.create",
-    "cloudkms.cryptoKeyEncrypterDecrypter",
+    "cloudkms.cryptoKeyVersions.useToDecrypt",
+    "cloudkms.cryptoKeyVersions.useToEncrypt",
   ]
 }
 
