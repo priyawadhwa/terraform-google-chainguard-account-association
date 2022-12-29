@@ -1,5 +1,5 @@
 variable "enforce_domain_name" {
-  default     = "priya-chainguard.dev"
+  default     = "enforce.dev"
   type        = string
   description = "Domain name of your Chainguard Enforce environment"
   sensitive   = false
@@ -11,7 +11,7 @@ variable "enforce_group_id" {
   description = "Enforce IAM group ID to bind your AWS account to"
   sensitive   = false
   nullable    = false
-  default     = "20c1263ac49f8cf9ad39e91006fa2beb8096e7f4"
+  default     = "b503e31b0dd075dbbcbc9b33f3476291d8e9b9a1"
 
   validation {
     condition     = length(regexall("^[a-f0-9]{40}(\\/[a-f0-9]{16})*$", var.enforce_group_id)) == 1
