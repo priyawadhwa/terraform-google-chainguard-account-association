@@ -1,5 +1,5 @@
 variable "enforce_domain_name" {
-  default     = "priya-chainguard.dev"
+  default     = "enforce.dev"
   type        = string
   description = "Domain name of your Chainguard Enforce environment"
   sensitive   = false
@@ -8,14 +8,22 @@ variable "enforce_domain_name" {
 
 variable "enforce_group_id" {
   type        = string
-  description = "Enforce IAM group ID to bind your AWS account to"
+  description = "DEPRECATED: Please use 'enforce_group_ids'. Enforce IAM group ID to bind your AWS account to"
+  default     = ""
   sensitive   = false
-  nullable    = false
-  default     = "20c1263ac49f8cf9ad39e91006fa2beb8096e7f4"
+
+}
+
+variable "enforce_group_ids" {
+  type        = list(string)
+  description = "Enforce IAM group IDs to bind your AWS account to. If both 'enforce_group_id' and 'enforce_group_ids' are specified, 'enforce_group_id' is ignored."
+  sensitive   = false
+  default     = ["b503e31b0dd075dbbcbc9b33f3476291d8e9b9a1",
+      "20c1263ac49f8cf9ad39e91006fa2beb8096e7f4"]
 
   validation {
-    condition     = length(regexall("^[a-f0-9]{40}(\\/[a-f0-9]{16})*$", var.enforce_group_id)) == 1
-    error_message = "The enforce_group_id must be a valid group id."
+    condition     = can([for g in var.enforce_group_ids : regex("^[a-f0-9]{40}(\\/[a-f0-9]{16})*$", g)])
+    error_message = "IDs in enforce_group_ids must be a valid group id."
   }
 }
 
@@ -26,3 +34,5 @@ variable "google_project_id" {
   sensitive   = false
   nullable    = false
 }
+
+

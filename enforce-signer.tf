@@ -7,10 +7,10 @@ resource "google_service_account" "chainguard_signer" {
 
 // Allow the provider (mapped token) to impersonate this service account if
 // the subject matches what we expect.
-resource "google_service_account_iam_member" "allow_signer_impersonation" {
+resource "google_service_account_iam_binding" "allow_signer_impersonation" {
   service_account_id = google_service_account.chainguard_signer.name
   role               = "roles/iam.workloadIdentityUser"
-  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.chainguard_pool.name}/attribute.sub/enforce-signer:${var.enforce_group_id}"
+  members            = [for id in local.enforce_group_ids : "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.chainguard_pool.name}/attribute.sub/enforce-signer:${id}"]
 }
 
 // TODO(hectorj2f) Think about restricting cloudkms.cryptoKeyEncrypterDecrypter permissions to a keyring, e.g. key_ring_id = google_kms_key_ring.sigstore-keyring.id
@@ -23,8 +23,11 @@ resource "google_project_iam_custom_role" "chainguard_signer_ca_role" {
     "privateca.certificateAuthorities.list",
     "privateca.certificateAuthorities.get",
     "privateca.certificates.create",
-    "cloudkms.cryptoKeyVersions.useToDecrypt",
-    "cloudkms.cryptoKeyVersions.useToEncrypt",
+    "cloudkms.cryptoKeys.get", // This role and the following roles are needed for signing with a KMS-based CA
+    "cloudkms.cryptoKeys.list",
+    "cloudkms.cryptoKeyVersions.viewPublicKey",
+    "cloudkms.cryptoKeyVersions.useToSign",
+    "cloudkms.cryptoKeyVersions.list",
   ]
 }
 

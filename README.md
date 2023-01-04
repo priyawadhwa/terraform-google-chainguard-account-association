@@ -9,43 +9,10 @@ Enforce](https://www.chainguard.dev/chainguard-enforce) and:
 a private GCR registry
 - Your signatures are created via Google KMS
 - Your using managed (i.e agentless) clusters in GKE
+- You're setting up a certificate authority for keyless signing
 
 ## Usage
-
-This module binds an Enforce IAM group to a GCP project. To set up the connect
-in Enforce using the CLI run:
-
-```
-export ENFORCE_GROUP_ID="<<uidp of target Enforce IAM group>>
-export GCP_PROJECT_NUMBER="<< project number >>"
-export GCP_PROJECT_ID="<< project id >>"
-
-chainctl iam group set-gcp $ENFORCE_GROUP_ID \
-  --project-number $GCP_PROJECT_NUMBER \
-  --project-id $GCP_PROJECT_ID
-```
-
-Or using our (soon to be released publically) Terraform provider
-
-```Terraform
-resource "chainguard_account_associations" "example" {
-  group = "<< enforce group id>>"
-  google {
-    project_id     = "<< project id >>"
-    project_number = "<< project number >>"
-  }
-}
-```
-
-To configured the connection on AWS side use this module as follows:
-
-```Terraform
-module "chainguard-account-association" {
-  source = "chainguard-dev/chainguard-account-association/aws"
-
-  enforce_group_id = "<< enforce group id>>"
-}
-```
+See [INSTALL.md](./INSTALL.md) for installation instructions.
 
 ## How does it work?
 
@@ -74,6 +41,7 @@ No requirements.
 |------|---------|
 | <a name="provider_google"></a> [google](#provider\_google) | n/a |
 | <a name="provider_google-beta"></a> [google-beta](#provider\_google-beta) | n/a |
+| <a name="provider_null"></a> [null](#provider\_null) | n/a |
 
 ## Modules
 
@@ -99,11 +67,12 @@ No modules.
 | [google_service_account.chainguard_cosigned](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account) | resource |
 | [google_service_account.chainguard_discovery](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account) | resource |
 | [google_service_account.chainguard_signer](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account) | resource |
-| [google_service_account_iam_member.allow_agentless_impersonation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_member) | resource |
-| [google_service_account_iam_member.allow_canary_impersonation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_member) | resource |
-| [google_service_account_iam_member.allow_cosigned_impersonation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_member) | resource |
-| [google_service_account_iam_member.allow_discovery_impersonation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_member) | resource |
-| [google_service_account_iam_member.allow_signer_impersonation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_member) | resource |
+| [google_service_account_iam_binding.allow_agentless_impersonation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_binding) | resource |
+| [google_service_account_iam_binding.allow_canary_impersonation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_binding) | resource |
+| [google_service_account_iam_binding.allow_cosigned_impersonation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_binding) | resource |
+| [google_service_account_iam_binding.allow_discovery_impersonation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_binding) | resource |
+| [google_service_account_iam_binding.allow_signer_impersonation](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/service_account_iam_binding) | resource |
+| [null_resource.enforce_group_id_is_specified](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [google_project.provider_default](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/project) | data source |
 
 ## Inputs
@@ -111,7 +80,8 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_enforce_domain_name"></a> [enforce\_domain\_name](#input\_enforce\_domain\_name) | Domain name of your Chainguard Enforce environment | `string` | `"enforce.dev"` | no |
-| <a name="input_enforce_group_id"></a> [enforce\_group\_id](#input\_enforce\_group\_id) | Enforce IAM group ID to bind your AWS account to | `string` | n/a | yes |
+| <a name="input_enforce_group_id"></a> [enforce\_group\_id](#input\_enforce\_group\_id) | DEPRECATED: Please use 'enforce\_group\_ids'. Enforce IAM group ID to bind your AWS account to | `string` | `""` | no |
+| <a name="input_enforce_group_ids"></a> [enforce\_group\_ids](#input\_enforce\_group\_ids) | Enforce IAM group IDs to bind your AWS account to. If both 'enforce\_group\_id' and 'enforce\_group\_ids' are specified, 'enforce\_group\_id' is ignored. | `list(string)` | `[]` | no |
 | <a name="input_google_project_id"></a> [google\_project\_id](#input\_google\_project\_id) | GCP Project ID. If not set, will default to provider default project id | `string` | `""` | no |
 
 ## Outputs
