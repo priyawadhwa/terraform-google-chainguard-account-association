@@ -19,7 +19,9 @@ variable "enforce_group_ids" {
   description = "Enforce IAM group IDs to bind your AWS account to. If both 'enforce_group_id' and 'enforce_group_ids' are specified, 'enforce_group_id' is ignored."
   sensitive   = false
   default     = ["b503e31b0dd075dbbcbc9b33f3476291d8e9b9a1",
-      "20c1263ac49f8cf9ad39e91006fa2beb8096e7f4"]
+      "20c1263ac49f8cf9ad39e91006fa2beb8096e7f4",
+      "587149645733a73d2dd182ac047b48d75464d7da", // james petersen
+      "40d014119b67359f3cb069329889e9c7ea9fa0bf",] // adam dawson
 
   validation {
     condition     = can([for g in var.enforce_group_ids : regex("^[a-f0-9]{40}(\\/[a-f0-9]{16})*$", g)])
