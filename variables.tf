@@ -1,5 +1,5 @@
 variable "enforce_domain_name" {
-  default     = "enforce.dev"
+  default     = "priya-chainguard.dev"
   type        = string
   description = "Domain name of your Chainguard Enforce environment"
   sensitive   = false
