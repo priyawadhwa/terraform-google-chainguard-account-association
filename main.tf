@@ -1,5 +1,4 @@
 data "google_project" "provider_default" {
-  project_id = var.google_project_id
 }
 
 locals {
