@@ -1,4 +1,5 @@
 data "google_project" "provider_default" {
+  project_id = var.google_project_id
 }
 
 locals {
@@ -36,7 +37,6 @@ resource "google_project_service" "iamcredentials-api" {
   project                    = local.project_id
   service                    = "iamcredentials.googleapis.com"
   disable_dependent_services = false
-  disable_on_destroy         = false
 }
 
 // Provision the Workload Identity Pool
