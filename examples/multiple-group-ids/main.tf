@@ -14,7 +14,7 @@ terraform {
 }
 
 provider "chainguard" {
-  console_api = "https://console-api.chainguard.dev"
+  console_api = "https://console-api.chainops.dev"
 }
 
 provider "google" {}
