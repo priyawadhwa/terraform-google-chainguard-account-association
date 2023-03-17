@@ -64,6 +64,8 @@ below the scope of the Enforce group you configure.
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
+export TF_CLI_CONFIG_FILE=dev.tfrc
+
 No requirements.
 
 ## Providers
