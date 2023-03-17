@@ -14,5 +14,5 @@ terraform {
 
 
 provider "chainguard" {
-  console_api = "https://console-api.priya-chainguard.dev"
+  console_api = "https://console-api.${var.enforce_domain_name}"
 }
