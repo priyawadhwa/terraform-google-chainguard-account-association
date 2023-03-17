@@ -14,7 +14,7 @@ resource "chainguard_identity" "actions-signer" {
   claim_match {
     issuer  = "https://token.actions.githubusercontent.com"
     # Work on any branch
-    subject_pattern = ".*"
+    subject_pattern = "https:\\/\\/github\\.com\\/priyawadhwa\\/mono\\/\\.github\\/workflows\\/.*"
   }
 }
 

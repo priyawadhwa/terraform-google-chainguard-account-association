@@ -68,7 +68,7 @@ resource "google_privateca_certificate_authority" "ca" {
   location = "us-central1"
   pool     = google_privateca_ca_pool.ca_pool.name
 
-  certificate_authority_id = "signing-dogfooding-ca"
+  certificate_authority_id = "signing-dogfood"
   deletion_protection      = false
 
 
@@ -82,25 +82,14 @@ resource "google_privateca_certificate_authority" "ca" {
     x509_config {
       ca_options {
         is_ca = true
-        max_issuer_path_length = 10
       }
       key_usage {
         base_key_usage {
-          digital_signature = true
-          content_commitment = true
-          key_encipherment = false
-          data_encipherment = true
-          key_agreement = true
           cert_sign = true
           crl_sign = true
-          decipher_only = true
         }
         extended_key_usage {
-          server_auth = true
-          client_auth = false
-          email_protection = true
           code_signing = true
-          time_stamping = true
         }
       }
     }
