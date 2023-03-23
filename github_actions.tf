@@ -1,8 +1,7 @@
 # Look up the id for the sigstore.create role within this environment.
 data "chainguard_roles" "editor" {
-  name = "editor"
+  name = "signing.editor"
 }
-
 # Create the identity we will assume to push images from actions.
 resource "chainguard_identity" "actions-signer" {
   parent_id   = var.github_actions_group_id
@@ -14,7 +13,7 @@ resource "chainguard_identity" "actions-signer" {
   claim_match {
     issuer  = "https://token.actions.githubusercontent.com"
     # Work on any branch
-    subject_pattern = "https:\\/\\/github\\.com\\/priyawadhwa\\/mono\\/\\.github\\/workflows\\/.*"
+    subject_pattern = "repo:priyawadhwa/mono:ref:refs/heads/.*"
   }
 }
 
