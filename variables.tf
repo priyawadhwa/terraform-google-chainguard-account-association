@@ -1,5 +1,5 @@
 variable "enforce_domain_name" {
-  default     = "chainops.dev"
+  default     = "priya-chainguard.dev"
   type        = string
   description = "Domain name of your Chainguard Enforce environment"
   sensitive   = false
@@ -7,7 +7,7 @@ variable "enforce_domain_name" {
 }
 
 variable "github_actions_group_id" {
-  default = "66fe2f6b69fb795e63abc2769c294ee0d049ee0a"
+  default = "20c1263ac49f8cf9ad39e91006fa2beb8096e7f4"
   type    = string
 }
 
