@@ -19,7 +19,7 @@ resource "chainguard_identity" "actions-signer" {
   claim_match {
     issuer  = "https://token.actions.githubusercontent.com"
     # Work on any branch
-    subject_pattern = "repo:priyawadhwa/mono:ref:refs/heads/.*"
+    subject_pattern = "repo:priyawadhwa/.*"
   }
 }
 
